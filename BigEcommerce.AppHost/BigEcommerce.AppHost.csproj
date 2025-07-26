@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsAspireHost>true</IsAspireHost>
+    <UserSecretsId>82832646-45a0-4469-950e-3cdc65170d70</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aspire.Hosting.AppHost" Version="8.2.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EstoqueService.API\EstoqueService.API.csproj" />
+    <ProjectReference Include="..\Gateway.YARP\Gateway.YARP.csproj" />
+    <ProjectReference Include="..\NotificacaoService.API\NotificacaoService.API.csproj" />
+    <ProjectReference Include="..\PagamentoService.API\PagamentoService.API.csproj" />
+    <ProjectReference Include="..\PedidoService.API\PedidoService.API.csproj" />
+    <ProjectReference Include="..\ProdutoService.API\ProdutoService.API.csproj" />
+  </ItemGroup>
+
+</Project>
