@@ -1,5 +1,5 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Sdk Name="Aspire.AppHost.Sdk" Version="9.0.0" />
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net8.0</TargetFramework>
@@ -10,16 +10,34 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Aspire.Hosting.AppHost" Version="8.2.2" />
+    <PackageReference Include="Aspire.Hosting" Version="9.3.2" />
+    <PackageReference Include="Aspire.Hosting.AppHost" Version="9.3.1" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.Common" Version="4.14.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.7" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EstoqueService.API\EstoqueService.API.csproj" />
-    <ProjectReference Include="..\Gateway.YARP\Gateway.YARP.csproj" />
-    <ProjectReference Include="..\NotificacaoService.API\NotificacaoService.API.csproj" />
-    <ProjectReference Include="..\PagamentoService.API\PagamentoService.API.csproj" />
-    <ProjectReference Include="..\PedidoService.API\PedidoService.API.csproj" />
-    <ProjectReference Include="..\ProdutoService.API\ProdutoService.API.csproj" />
+	  <ProjectReference Include="..\..\Services\IdentityService\API\IdentityService.API.csproj" />
+	  <ProjectReference Include="..\..\Services\ProdutoService\API\ProdutoService.API.csproj" />
+	  <ProjectReference Include="..\..\Services\PedidoService\API\PedidoService.API.csproj" />
+	  <ProjectReference Include="..\..\Services\EstoqueService\API\EstoqueService.API.csproj" />
+	  <ProjectReference Include="..\..\Services\PagamentoService\API\PagamentoService.API.csproj" />
+	  <ProjectReference Include="..\..\Services\OfertaRelampagoService\API\OfertaRelampagoService.API.csproj" />
+	  <ProjectReference Include="..\..\Services\NotificacaoService\API\NotificacaoService.API.csproj" />
+
+	  <ProjectReference Include="..\..\Services\ObservabilidadeService\Logs\ObservabilidadeService.Logs.csproj" />
+	  <ProjectReference Include="..\..\Services\ObservabilidadeService\Metrics\ObservabilidadeService.Metrics.csproj" />
+	  <ProjectReference Include="..\..\Services\ObservabilidadeService\Tracing\ObservabilidadeService.Tracing.csproj" />
+
+	  <ProjectReference Include="..\..\Gateway\YARP\YARP.csproj" />
+	  <ProjectReference Include="..\..\Frontend\BigEcommerce.App\BigEcommerce.App.csproj" />
+	  <ProjectReference Include="..\BigEcommerce.App\BigEcommerce.App.Web\BigEcommerce.App.Web.csproj" />
+	  <ProjectReference Include="..\EstoqueService.API\EstoqueService.API.csproj" />
+	  <ProjectReference Include="..\IdentityService.API\IdentityService.API.csproj" />
+	  <ProjectReference Include="..\NotificacaoService.API\NotificacaoService.API.csproj" />
+	  <ProjectReference Include="..\PagamentoService.API\PagamentoService.API.csproj" />
+	  <ProjectReference Include="..\PedidoService.API\PedidoService.API.csproj" />
+	  <ProjectReference Include="..\ProdutoService.API\ProdutoService.API.csproj" />
   </ItemGroup>
 
 </Project>
