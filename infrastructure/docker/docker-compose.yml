@@ -1,0 +1,160 @@
+version: '3.8'
+
+services:
+
+  # GATEWAY
+  gateway:
+    build:
+      context: ./src/Gateway/Gateway.YARP
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    depends_on:
+      - identity-service
+      - produto-service
+      - pedido-service
+      - estoque-service
+      - pagamento-service
+      - notificacao-service
+    networks:
+      - ecommerce-net
+
+  # FRONTEND - Blazor Web
+  bigecommerce-app:
+    build:
+      context: ./src/Frontend/BigEcommerce.App.Web
+      dockerfile: Dockerfile
+    ports:
+      - "5173:80"
+    networks:
+      - ecommerce-net
+
+  # IDENTITY
+  identity-service:
+    build:
+      context: ./src/Services/IdentityService
+      dockerfile: Dockerfile
+    ports:
+      - "5001:80"
+    networks:
+      - ecommerce-net
+
+  # PRODUTO
+  produto-service:
+    build:
+      context: ./src/Services/ProdutoService
+      dockerfile: Dockerfile
+    ports:
+      - "5002:80"
+    networks:
+      - ecommerce-net
+
+  # PEDIDO
+  pedido-service:
+    build:
+      context: ./src/Services/PedidoService
+      dockerfile: Dockerfile
+    ports:
+      - "5003:80"
+    networks:
+      - ecommerce-net
+
+  # ESTOQUE
+  estoque-service:
+    build:
+      context: ./src/Services/EstoqueService
+      dockerfile: Dockerfile
+    ports:
+      - "5004:80"
+    networks:
+      - ecommerce-net
+
+  # PAGAMENTO
+  pagamento-service:
+    build:
+      context: ./src/Services/PagamentoService
+      dockerfile: Dockerfile
+    ports:
+      - "5005:80"
+    networks:
+      - ecommerce-net
+
+  # NOTIFICAÇÃO
+  notificacao-service:
+    build:
+      context: ./src/Services/NotificacaoService
+      dockerfile: Dockerfile
+    ports:
+      - "5006:80"
+    networks:
+      - ecommerce-net
+
+  # OBSERVABILIDADE - LOGS
+  observabilidade-logs:
+    image: datalust/seq:latest
+    ports:
+      - "5341:80"
+    environment:
+      - ACCEPT_EULA=Y
+    volumes:
+      - seq-data:/data
+    networks:
+      - ecommerce-net
+
+  # OBSERVABILIDADE - MÉTRICAS
+  observabilidade-metrics:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./infra/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - ecommerce-net
+
+  # OBSERVABILIDADE - TRACING
+  observabilidade-tracing:
+    image: jaegertracing/all-in-one:latest
+    ports:
+      - "16686:16686"
+    networks:
+      - ecommerce-net
+
+  # GRAFANA
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana-storage:/var/lib/grafana
+    depends_on:
+      - observabilidade-metrics
+    networks:
+      - ecommerce-net
+
+  # LOCALSTACK
+  localstack:
+    image: localstack/localstack:latest
+    ports:
+      - "4566:4566" # principal
+      - "4571:4571" # legacy
+    environment:
+      - SERVICES=s3,sqs,dynamodb
+      - DEBUG=1
+      - DATA_DIR=/tmp/localstack/data
+    volumes:
+      - ./infra/localstack:/etc/localstack/init
+      - localstack-data:/tmp/localstack
+    networks:
+      - ecommerce-net
+
+networks:
+  ecommerce-net:
+    driver: bridge
+
+volumes:
+  grafana-storage:
+  seq-data:
+  localstack-data:

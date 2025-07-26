@@ -1,0 +1,34 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: 'aspire_services'
+    static_configs:
+      - targets: ['localhost:5000', 'localhost:5001'] # Adicione as portas dos seus microsserviços ou exporters
+
+  - job_name: 'dotnet_runtime'
+    metrics_path: '/metrics'
+    static_configs:
+      - targets: ['localhost:5000', 'localhost:5001']
+
+  - job_name: 'kafka'
+    static_configs:
+      - targets: ['localhost:9092']
+
+  - job_name: 'sqlserver_exporter'
+    static_configs:
+      - targets: ['localhost:1433']
+
+  - job_name: 'redis'
+    static_configs:
+      - targets: ['localhost:6379']
+
+  - job_name: 'elasticsearch'
+    static_configs:
+      - targets: ['localhost:9200']
+
+  - job_name: 'rabbitmq'
+    metrics_path: '/metrics'
+    static_configs:
+      - targets: ['localhost:15672']
